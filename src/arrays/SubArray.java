@@ -7,9 +7,13 @@ import java.util.Arrays;
 
 public class SubArray {
     public static void main(String[] args) {
-        List<Integer> list = Arrays.asList(1,2,3,5,7);
+        List<Integer> list = Arrays.asList(1,2,3,7,5);
 
-        System.out.print(subArraySum(list, list.size(), 12));
+        //approach 1
+        System.out.println("result 1: " + subArraySum(list, list.size(), 12));
+
+        //approach 2
+        System.out.println("result 2: " + firstSubArraySum(list, list.size(), 12));
     }
 
     static ArrayList<Integer> subArraySum(List<Integer> arr, int n, int s)
@@ -29,6 +33,25 @@ public class SubArray {
             }
         }
         return arrayList;
+    }
+
+    static ArrayList<Integer> firstSubArraySum(List<Integer> arr, int n, int s){
+        ArrayList<Integer> originalArr = new ArrayList<>(arr.size());
+        originalArr.addAll(arr);
+        ArrayList<Integer> subArr = new ArrayList<>();
+
+    loop:   for (int i = 0; i < n; i++) {
+                for(int size = 0; size < n - i; size++) {
+                    int sum = getSubArrSum(originalArr, i, i+size);
+//                    System.out.println(getSubArr(originalArr, i, size+i));
+                    if(sum == s){
+                        subArr = getSubArr(originalArr, i, size+i);
+                        break loop;
+                    }
+                }
+            }
+
+        return subArr;
     }
 
     static int getSubArrSum(ArrayList<Integer> arr, int start, int end){
